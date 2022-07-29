@@ -10,7 +10,7 @@ const currentIndex = ref(0)
   <div class="tab-bar">
     <van-tabbar v-model="currentIndex" active-color="#ff9854">
       <template v-for="(item, index) in tabbarData" :key="item.text">
-        <van-tabbar-item>
+        <van-tabbar-item :to="item.path">
           <span>{{ item.text }}</span>
           <template #icon>
             <img v-if="currentIndex !== index" :src="getAssetURL(item.image)" alt="">
