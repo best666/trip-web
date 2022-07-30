@@ -1,8 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/home/home.vue'
-import Favor from '@/views/favor/favor.vue'
-import Order from '@/views/order/order.vue'
-import Message from '@/views/message/message.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,19 +9,26 @@ const router = createRouter({
     },
     {
       path: '/home',
-      component: Home
+      component: () => import('@/views/home/home.vue') //使用路由懒加载
     },
     {
       path: '/favor',
-      component: Favor
+      component: () => import('@/views/favor/favor.vue')
     },
     {
       path: '/order',
-      component: Order
+      component: () => import('@/views/order/order.vue')
     },
     {
       path: '/message',
-      component: Message
+      component: () => import('@/views/message/message.vue')
+    },
+    {
+      path: '/city',
+      component: () => import('@/views/city/city.vue'),
+      meta: {
+        hideTabBar: true //隐藏tabbar
+      }
     }
   ]
 })

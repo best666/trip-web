@@ -1,6 +1,6 @@
 <script setup>
-import { RouterView } from "vue-router";
-import TabBar from "@/components/tab-bar/tab-bar.vue";
+import { RouterView } from 'vue-router'
+import TabBar from '@/components/tab-bar/tab-bar.vue'
 </script>
 
 <template>
@@ -10,5 +10,4 @@ import TabBar from "@/components/tab-bar/tab-bar.vue";
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -1,41 +1,35 @@
 <script setup>
-import { ref } from 'vue';
+import { useRouter } from 'vue-router'
 
-let show = ref(false)
-const formatter = (day) => {
-  const date = day.date.getDate();
-
-  if (date === 11)
-  {
-    day.text = '今天';
+const router = useRouter()
+const cityItemClick = () => {
+  router.push('/city')
+}
+const doPosition = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (res) => {
+        console.log('[ res ] >', res)
+      },
+      (err) => {
+        console.log('[ err ] >', err)
+      }
+    )
+  } else {
+    console.log('浏览器不支持获取地理位置。')
   }
-
-
-  if (day.type === 'start')
-  {
-    day.bottomInfo = '入住';
-  } else if (day.type === 'end')
-  {
-    day.bottomInfo = '离店';
-  }
-
-  return day;
-};
+}
 </script>
 
 <template>
   <div class="search">
     <!-- search-input -->
     <div class="search-input">
-      <span class="left">广州</span>
-      <div class="right">
+      <div class="left" @click="cityItemClick">广州</div>
+      <div class="right" @click="doPosition">
         <span>我的位置</span>
-        <img src="@/assets/img/home/icon_location.png" alt="">
+        <img src="@/assets/img/home/icon_location.png" alt="" />
       </div>
-    </div>
-    <!-- Date of stay -->
-    <div class="data-stay">
-      <van-calendar v-model:show="show" type="range" :formatter="formatter" />
     </div>
   </div>
 </template>
@@ -49,12 +43,17 @@ const formatter = (day) => {
   padding: 0 20px;
   color: #333;
 
+  .left {
+    flex: 1;
+  }
+
   .right {
     display: flex;
     align-items: center;
+    width: 78px;
 
     span {
-      font-size: 14px;
+      font-size: 12px;
       color: #666;
     }
 

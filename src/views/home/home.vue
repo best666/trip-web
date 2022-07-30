@@ -1,6 +1,5 @@
 <script setup>
-import HomeSearch from './cpns/home-search.vue';
-
+import HomeSearch from './cpns/home-search.vue'
 </script>
 
 <template>
@@ -12,7 +11,6 @@ import HomeSearch from './cpns/home-search.vue';
     <!-- s搜索 -->
     <home-search />
   </div>
-
 </template>
 
 <style lang="less" scoped>
