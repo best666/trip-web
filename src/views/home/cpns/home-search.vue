@@ -1,7 +1,11 @@
 <script setup>
+import { useCityStore } from '@/stores/modules/city'
+import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const cityStore = useCityStore()
+const { currentCity } = storeToRefs(cityStore)
 const cityItemClick = () => {
   router.push('/city')
 }
@@ -25,7 +29,7 @@ const doPosition = () => {
   <div class="search">
     <!-- search-input -->
     <div class="search-input">
-      <div class="left" @click="cityItemClick">广州</div>
+      <div class="left" @click="cityItemClick">{{ currentCity.cityName }}</div>
       <div class="right" @click="doPosition">
         <span>我的位置</span>
         <img src="@/assets/img/home/icon_location.png" alt="" />

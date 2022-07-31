@@ -28,12 +28,12 @@ class MYRequest {
     })
   }
 
-  get(url = '', config = {}) {
-    return this.request({ url, ...config, method: 'get' })
+  get(config = {}) {
+    return this.request({ ...config, method: 'get' })
   }
 
-  post(url = '', config = {}) {
-    return this.request({ url, ...config, method: 'post' })
+  post(config = {}) {
+    return this.request({ ...config, method: 'post' })
   }
 }
 

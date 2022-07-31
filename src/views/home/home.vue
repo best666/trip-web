@@ -4,7 +4,7 @@ import HomeSearch from './cpns/home-search.vue'
 
 <template>
   <div class="home">
-    <van-nav-bar title="旅途" />
+    <van-nav-bar title="best旅途" />
     <div class="banner">
       <img src="@/assets/img/home/banner.webp" alt="" />
     </div>
