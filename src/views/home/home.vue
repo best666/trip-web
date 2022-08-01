@@ -1,5 +1,10 @@
 <script setup>
+import { useHomeStore } from '@/stores/modules/home'
 import HomeSearch from './cpns/home-search.vue'
+
+// 发送网络请求
+const homeStore = useHomeStore()
+homeStore.fetchHotSuggests()
 </script>
 
 <template>
