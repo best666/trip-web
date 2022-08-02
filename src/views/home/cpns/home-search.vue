@@ -66,7 +66,7 @@ const { hotSuggests } = storeToRefs(homeStore)
           class="item"
           :style="{ background: item.tagText.background, color: item.tagText.color }"
         >
-          <span>{{ item.tagtext.text }}}</span>
+          <span>{{ item.tagText.text }}</span>
         </div>
       </template>
     </div>
