@@ -1,8 +1,11 @@
 <script setup>
 import { useCityStore } from '@/stores/modules/city'
 import { useHomeStore } from '@/stores/modules/home.js'
+import { useMainStore } from '@/stores/modules/main.js'
 import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { formatMonthDay, getDiffDays } from '@/utils/format_date'
 
 const router = useRouter()
 // 城市数据
@@ -25,9 +28,41 @@ const doPosition = () => {
     console.log('浏览器不支持获取地理位置。')
   }
 }
+// 日期范围的处理
+const mainStore = useMainStore()
+const { startDate, endDate } = storeToRefs(mainStore)
+
+const startDateStr = computed(() => formatMonthDay(startDate.value))
+const endDateStr = computed(() => formatMonthDay(endDate.value))
+const stayCount = ref(getDiffDays(startDate.value, endDate.value))
+
+const showCalendar = ref(false)
+const onConfirm = (value) => {
+  // 1.设置日期
+  const selectStartDate = value[0]
+  const selectEndDate = value[1]
+  mainStore.startDate = selectStartDate
+  mainStore.endDate = selectEndDate
+  stayCount.value = getDiffDays(selectStartDate, selectEndDate)
+
+  // 2.隐藏日历
+  showCalendar.value = false
+}
 // 热门建议
 const homeStore = useHomeStore()
 const { hotSuggests } = storeToRefs(homeStore)
+// 搜索
+// 开始搜索
+const searchBtnClick = () => {
+  router.push({
+    path: '/search',
+    query: {
+      startDate: startDate.value,
+      endDate: endDate.value,
+      currentCity: currentCity.value.cityName
+    }
+  })
+}
 </script>
 
 <template>
@@ -41,17 +76,25 @@ const { hotSuggests } = storeToRefs(homeStore)
       </div>
     </div>
     <!-- 日期范围 -->
-    <div class="section date-range bottom-gray-line">
+    <div class="section date-range bottom-gray-line" @click="showCalendar = true">
       <div class="start">
         <span class="tip">入住</span>
-        <span class="time">xxx</span>
+        <span class="time">{{ startDateStr }}</span>
       </div>
-      <span class="stay">共一晚</span>
+      <span class="stay">共{{ stayCount }}晚</span>
       <div class="start end">
         <span class="tip">离店</span>
-        <span class="time">xxx </span>
+        <span class="time">{{ endDateStr }}</span>
       </div>
     </div>
+    <van-calendar
+      v-model:show="showCalendar"
+      type="range"
+      color="#ff9854"
+      :round="false"
+      :show-confirm="false"
+      @confirm="onConfirm"
+    />
     <!-- 价格/人数选择 -->
     <div class="section price-counter bottom-gray-line">
       <div class="start">价格不限</div>
@@ -71,7 +114,9 @@ const { hotSuggests } = storeToRefs(homeStore)
       </template>
     </div>
     <!-- 搜索按钮 -->
-    <div class="section"></div>
+    <div class="section search-btn">
+      <div class="btn" @click="searchBtnClick">开始搜索</div>
+    </div>
   </div>
 </template>
 
@@ -119,9 +164,10 @@ const { hotSuggests } = storeToRefs(homeStore)
       color: #999;
     }
     .time {
+      margin-top: 3px;
       font-size: 15px;
-      color: #666;
-      font-weight: 600;
+      color: #333;
+      font-weight: 500;
     }
   }
   .end {
@@ -147,12 +193,29 @@ const { hotSuggests } = storeToRefs(homeStore)
   }
 }
 .hot-suggests {
+  margin: 10px 0;
+  height: auto;
+
   .item {
     padding: 4px 8px;
     margin: 4px;
     border-radius: 14px;
     font-size: 12px;
     line-height: 1;
+  }
+}
+.search-btn {
+  .btn {
+    width: 342px;
+    height: 38px;
+    max-height: 50px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 38px;
+    text-align: center;
+    border-radius: 20px;
+    color: #fff;
+    background-image: var(--theme-linear-gradient);
   }
 }
 </style>
