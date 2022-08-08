@@ -205,6 +205,9 @@ const searchBtnClick = () => {
   }
 }
 .search-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .btn {
     width: 342px;
     height: 38px;
